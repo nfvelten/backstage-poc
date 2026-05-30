@@ -1,0 +1,81 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: air-comercial
+  description: Serviço demo que emula a comercial-api em ambiente Kubernetes para apresentação da PoC.
+  annotations:
+    backstage.io/kubernetes-id: air-comercial
+    backstage.io/kubernetes-namespace: air-demo
+    backstage.io/kubernetes-label-selector: app=air-comercial,backstage.io/kubernetes-id=air-comercial
+    backstage.io/techdocs-ref: dir:../techdocs/comercial-api
+    gitlab.com/project-slug: air-poc/air-comercial
+    dev.azure.com/project-repo: Air/air-comercial
+  links:
+    - url: https://gitlab.example.internal/air-poc/air-comercial
+      title: GitLab - repo demo
+      icon: gitlab
+    - url: https://gitlab.example.internal/air-poc/air-comercial/-/pipelines
+      title: GitLab - pipelines
+      icon: dashboard
+    - url: https://dev.azure.com/example-org/Air/_boards/board/t/Comercial/Stories
+      title: Azure Boards - comercial
+      icon: dashboard
+    - url: https://rancher.example.internal/dashboard/c/local/explorer/apps.deployment/air-demo/air-comercial
+      title: Rancher - workload demo
+      icon: dashboard
+    - url: https://grafana.example.internal/d/air-comercial-demo/air-comercial-demo
+      title: Grafana - dashboard demo
+      icon: dashboard
+  tags:
+    - demo
+    - kubernetes
+    - gitlab
+    - azure-boards
+    - grafana
+spec:
+  type: service
+  lifecycle: experimental
+  owner: group:default/comercial
+  system: air-comercial
+  dependsOn:
+    - resource:default/rancher-kubernetes
+    - resource:default/grafana-self-hosted
+    - resource:default/gitlab-self-hosted
+  providesApis:
+    - api:default/air-comercial-http-api
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: air-comercial-http-api
+  description: API HTTP demo para representar endpoints comerciais no Backstage.
+spec:
+  type: openapi
+  lifecycle: experimental
+  owner: group:default/comercial
+  system: air-comercial
+  definition: |
+    openapi: 3.0.3
+    info:
+      title: air-comercial demo API
+      version: 0.1.0
+    paths:
+      /health:
+        get:
+          summary: Healthcheck demo
+          responses:
+            '200':
+              description: OK
+      /v1/contracts/detail:
+        get:
+          summary: Endpoint demo inspirado na comercial-api
+          parameters:
+            - name: contract_number
+              in: query
+              required: true
+              schema:
+                type: string
+          responses:
+            '200':
+              description: Detalhe de contrato demo
+

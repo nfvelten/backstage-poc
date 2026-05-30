@@ -1,0 +1,23 @@
+# Dependencies
+app/node_modules/
+node_modules/
+
+# Build artifacts
+app/packages/*/dist/
+app/packages/app/dist/
+
+# Yarn cache (keep releases/ for Berry)
+app/.yarn/cache/
+app/.yarn/unplugged/
+app/.yarn/build-state.yml
+app/.yarn/install-state.gz
+
+# Temp
+*.tar
+*.tar.gz
+/tmp/
+
+# Secrets
+.env
+*.env.local
+secrets.yaml

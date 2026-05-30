@@ -1,0 +1,43 @@
+{
+  "title": "air-comercial demo",
+  "tags": ["backstage", "air-comercial", "poc"],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "panels": [
+    {
+      "type": "logs",
+      "title": "Logs air-comercial",
+      "targets": [
+        {
+          "expr": "{namespace=\"air-demo\", app=\"air-comercial\"} |= \"air-comercial\"",
+          "refId": "A"
+        }
+      ],
+      "gridPos": { "h": 12, "w": 24, "x": 0, "y": 0 }
+    },
+    {
+      "type": "timeseries",
+      "title": "Requests demo por status",
+      "targets": [
+        {
+          "expr": "sum by (status) (count_over_time({namespace=\"air-demo\", app=\"air-comercial\"} | json | event=\"contract.detail.request\" [5m]))",
+          "refId": "B"
+        }
+      ],
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 12 }
+    },
+    {
+      "type": "timeseries",
+      "title": "Retries de integração demo",
+      "targets": [
+        {
+          "expr": "sum(count_over_time({namespace=\"air-demo\", app=\"air-comercial\"} | json | event=\"external.integration.retry\" [5m]))",
+          "refId": "C"
+        }
+      ],
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 12 }
+    }
+  ]
+}
+

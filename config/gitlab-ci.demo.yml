@@ -1,0 +1,36 @@
+stages:
+  - test
+  - build
+  - deploy
+
+variables:
+  IMAGE_NAME: registry.example.internal/air-poc/air-comercial
+  IMAGE_TAG: $CI_COMMIT_SHORT_SHA
+
+test:
+  stage: test
+  image: alpine:3.20
+  script:
+    - echo "Rodando testes demo do air-comercial"
+    - test -f README.md || true
+
+build:
+  stage: build
+  image: docker:27
+  services:
+    - docker:27-dind
+  script:
+    - echo "Build demo da imagem ${IMAGE_NAME}:${IMAGE_TAG}"
+    - echo "Nesta PoC, substituir por docker build/push real quando houver registry."
+
+deploy:poc:
+  stage: deploy
+  image: bitnami/kubectl:latest
+  script:
+    - echo "Deploy demo no cluster Contabo"
+    - kubectl apply -f kubernetes/air-comercial-demo.yaml
+  environment:
+    name: poc-contabo
+    url: https://air-comercial.poc.example.com
+  when: manual
+

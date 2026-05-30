@@ -1,0 +1,36 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: comercial-api
+  description: API comercial para clientes, vendas, contratos, crédito, integrações e operação comercial.
+  annotations:
+    backstage.io/techdocs-ref: dir:../techdocs/comercial-api
+  links:
+    - url: https://gitlab.example.internal/air/comercial-api
+      title: GitLab - comercial-api
+      icon: gitlab
+    - url: https://rancher.example.internal/dashboard/c/local/explorer/apps.deployment/default/comercial-api
+      title: Rancher - workload
+      icon: dashboard
+    - url: https://grafana.example.internal/d/comercial-api/comercial-api
+      title: Grafana - dashboard
+      icon: dashboard
+    - url: https://logs.example.internal/app/discover#/comercial-api
+      title: Logs - comercial-api
+      icon: search
+  tags:
+    - java
+    - spring-boot
+    - comercial
+    - api
+spec:
+  type: service
+  lifecycle: production
+  owner: group:default/comercial
+  system: air-comercial
+  dependsOn:
+    - resource:default/air-comercial-db
+    - resource:default/grafana-self-hosted
+    - resource:default/rancher-kubernetes
+    - resource:default/gitlab-self-hosted
+

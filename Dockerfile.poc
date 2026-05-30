@@ -1,0 +1,16 @@
+FROM node:20-bookworm-slim
+
+WORKDIR /app
+
+# Este Dockerfile é um placeholder operacional.
+# Para um Backstage real, gere a aplicação com o template oficial,
+# copie o bundle buildado e inclua catalog/ + techdocs/.
+
+COPY catalog /app/catalog
+COPY techdocs /app/techdocs
+COPY app-config.poc.yaml /app/app-config.poc.yaml
+
+EXPOSE 7007
+
+CMD ["node", "packages/backend", "--config", "app-config.poc.yaml"]
+

@@ -1,0 +1,125 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: air-demo
+  labels:
+    backstage.io/kubernetes-id: air-comercial
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: air-comercial-demo-config
+  namespace: air-demo
+  labels:
+    app: air-comercial
+    backstage.io/kubernetes-id: air-comercial
+data:
+  SERVICE_NAME: air-comercial
+  ENVIRONMENT: poc-contabo
+  GITLAB_PROJECT: air-poc/air-comercial
+  AZURE_BOARD: Air/Comercial
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: air-comercial
+  namespace: air-demo
+  labels:
+    app: air-comercial
+    backstage.io/kubernetes-id: air-comercial
+    environment: poc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: air-comercial
+      backstage.io/kubernetes-id: air-comercial
+  template:
+    metadata:
+      labels:
+        app: air-comercial
+        backstage.io/kubernetes-id: air-comercial
+        environment: poc
+      annotations:
+        app.gitlab.com/repo: air-poc/air-comercial
+        app.azure.com/board: Air/Comercial
+        app.grafana.com/dashboard: air-comercial-demo
+    spec:
+      containers:
+        - name: air-comercial
+          image: nginx:1.27-alpine
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 20
+        - name: log-generator
+          image: busybox:1.36
+          command:
+            - /bin/sh
+            - -c
+            - |
+              i=0
+              while true; do
+                i=$((i+1))
+                echo "{\"service\":\"air-comercial\",\"env\":\"poc-contabo\",\"level\":\"INFO\",\"event\":\"contract.detail.request\",\"route\":\"/v1/contracts/detail\",\"status\":200,\"duration_ms\":$((40 + i % 20)),\"trace_id\":\"demo-$i\"}"
+                if [ $((i % 9)) -eq 0 ]; then
+                  echo "{\"service\":\"air-comercial\",\"env\":\"poc-contabo\",\"level\":\"WARN\",\"event\":\"external.integration.retry\",\"dependency\":\"sydle\",\"attempt\":2,\"trace_id\":\"demo-$i\"}"
+                fi
+                sleep 5
+              done
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: air-comercial
+  namespace: air-demo
+  labels:
+    app: air-comercial
+    backstage.io/kubernetes-id: air-comercial
+spec:
+  selector:
+    app: air-comercial
+    backstage.io/kubernetes-id: air-comercial
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: air-comercial
+  namespace: air-demo
+  labels:
+    app: air-comercial
+    backstage.io/kubernetes-id: air-comercial
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - air-comercial.poc.example.com
+      secretName: air-comercial-demo-tls
+  rules:
+    - host: air-comercial.poc.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: air-comercial
+                port:
+                  number: 80
+

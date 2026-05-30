@@ -1,0 +1,27 @@
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: comercial
+  description: "Domínio comercial: clientes, vendas, contratos, crédito, integrações e atendimento."
+spec:
+  owner: group:default/comercial
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: air-comercial
+  description: Sistema comercial Air.
+spec:
+  owner: group:default/comercial
+  domain: comercial
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: comercial
+  description: Owner documental inicial do domínio comercial.
+spec:
+  type: team
+  profile:
+    displayName: Comercial
+  children: []
