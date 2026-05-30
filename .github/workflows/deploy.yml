@@ -60,21 +60,13 @@ jobs:
 
   deploy:
     name: Deploy to k3s
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build-push
 
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.K3S_HOST }}
-          username: root
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          script: |
-            kubectl set image deployment/backstage \
-              backstage=ghcr.io/nfvelten/backstage-poc:${{ github.sha }} \
-              -n backstage
-            kubectl rollout status deployment/backstage -n backstage --timeout=120s
+      - name: Deploy
+        run: |
+          kubectl set image deployment/backstage \
+            backstage=ghcr.io/nfvelten/backstage-poc:${{ github.sha }} \
+            -n backstage
+          kubectl rollout status deployment/backstage -n backstage --timeout=120s
