@@ -4,15 +4,15 @@ metadata:
   name: backstage
   namespace: backstage
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/cluster-issuer: letsencrypt-production
 spec:
-  ingressClassName: nginx
+  ingressClassName: traefik
   tls:
     - hosts:
-        - backstage.poc.example.com
+        - backstage.nicholas-velten.xyz
       secretName: backstage-tls
   rules:
-    - host: backstage.poc.example.com
+    - host: backstage.nicholas-velten.xyz
       http:
         paths:
           - path: /
