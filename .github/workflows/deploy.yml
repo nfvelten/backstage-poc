@@ -18,7 +18,7 @@ jobs:
       packages: write
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up Node ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
@@ -42,14 +42,14 @@ jobs:
         run: node .yarn/releases/yarn-4.4.1.cjs build:backend
 
       - name: Log in to GHCR
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build & push Docker image
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: app
           file: app/packages/backend/Dockerfile
@@ -60,13 +60,9 @@ jobs:
 
   deploy:
     name: Deploy to k3s
-    runs-on: self-hosted
+    runs-on: [self-hosted, contabo]
     needs: build-push
 
     steps:
       - name: Deploy
-        run: |
-          kubectl set image deployment/backstage \
-            backstage=ghcr.io/nfvelten/backstage-poc:${{ github.sha }} \
-            -n backstage
-          kubectl rollout status deployment/backstage -n backstage --timeout=120s
+        run: sudo k3s kubectl rollout restart deployment/backstage -n backstage
