@@ -1,0 +1,40 @@
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: air-comercial-db
+  description: Banco MySQL principal do domínio comercial.
+spec:
+  type: database
+  owner: group:default/comercial
+  system: air-comercial
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: grafana-self-hosted
+  description: Grafana interno com dashboards operacionais.
+spec:
+  type: dashboard
+  owner: group:default/comercial
+  system: air-comercial
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: rancher-kubernetes
+  description: Rancher/Kubernetes usado para workloads e logs.
+spec:
+  type: kubernetes-cluster
+  owner: group:default/comercial
+  system: air-comercial
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: gitlab-self-hosted
+  description: GitLab interno com código, pipelines e merge requests.
+spec:
+  type: source-control
+  owner: group:default/comercial
+  system: air-comercial
+

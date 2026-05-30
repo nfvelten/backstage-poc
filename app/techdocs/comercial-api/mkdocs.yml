@@ -1,0 +1,28 @@
+site_name: comercial-api
+site_description: Documentação operacional da comercial-api
+
+plugins:
+  - techdocs-core
+
+nav:
+  - Início: Index.md
+  - Endpoints: Endpoints da Collection/Index.md
+  - Fluxos: Fluxos de Negocio/Index.md
+  - Banco: Banco - air_comercial.md
+  - Queries: Queries por Endpoint da Collection.md
+  - Riscos: Mapa de Risco.md
+  - Integrações: Integracoes Externas/Index.md
+  - Ciclos de Vida: Ciclos de Vida/Index.md
+  - Runbooks: Operacional/Index.md
+  - ADRs: ADRs/Index.md
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
