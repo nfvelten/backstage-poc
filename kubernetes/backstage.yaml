@@ -4,11 +4,23 @@ metadata:
   name: backstage-config
   namespace: backstage
 data:
-  app-config.poc.yaml: |
-    # Copiar o conteúdo de ../app-config.poc.yaml para este ConfigMap antes do deploy real.
+  app-config.override.yaml: |
     app:
       title: Air Engineering Portal
-      baseUrl: https://backstage.poc.example.com
+      baseUrl: https://backstage.nicholas-velten.xyz
+    backend:
+      baseUrl: https://backstage.nicholas-velten.xyz
+      cors:
+        origin: https://backstage.nicholas-velten.xyz
+        methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
+        credentials: true
+      reading:
+        allow:
+          - host: raw.githubusercontent.com
+    auth:
+      providers:
+        guest:
+          dangerouslyAllowOutsideDevelopment: true
 ---
 apiVersion: v1
 kind: Secret
@@ -46,9 +58,26 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 7007
+          args:
+            - node
+            - packages/backend
+            - --config
+            - app-config.yaml
+            - --config
+            - app-config.production.yaml
+            - --config
+            - /etc/backstage/app-config.override.yaml
           envFrom:
             - secretRef:
                 name: backstage-secrets
+          volumeMounts:
+            - name: config-override
+              mountPath: /etc/backstage/app-config.override.yaml
+              subPath: app-config.override.yaml
+      volumes:
+        - name: config-override
+          configMap:
+            name: backstage-config
 ---
 apiVersion: v1
 kind: Service
