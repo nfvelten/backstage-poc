@@ -7,7 +7,7 @@ metadata:
     backstage.io/kubernetes-id: air-comercial
     backstage.io/kubernetes-namespace: air-demo
     backstage.io/kubernetes-label-selector: app=air-comercial,backstage.io/kubernetes-id=air-comercial
-    backstage.io/techdocs-ref: dir:../techdocs/comercial-api
+    backstage.io/techdocs-ref: dir:./techdocs-comercial-api
     gitlab.com/project-slug: air-poc/air-comercial
     dev.azure.com/project-repo: Air/air-comercial
   links:
@@ -42,40 +42,5 @@ spec:
     - resource:default/grafana-self-hosted
     - resource:default/gitlab-self-hosted
   providesApis:
-    - api:default/air-comercial-http-api
----
-apiVersion: backstage.io/v1alpha1
-kind: API
-metadata:
-  name: air-comercial-http-api
-  description: API HTTP demo para representar endpoints comerciais no Backstage.
-spec:
-  type: openapi
-  lifecycle: experimental
-  owner: group:default/comercial
-  system: air-comercial
-  definition: |
-    openapi: 3.0.3
-    info:
-      title: air-comercial demo API
-      version: 0.1.0
-    paths:
-      /health:
-        get:
-          summary: Healthcheck demo
-          responses:
-            '200':
-              description: OK
-      /v1/contracts/detail:
-        get:
-          summary: Endpoint demo inspirado na comercial-api
-          parameters:
-            - name: contract_number
-              in: query
-              required: true
-              schema:
-                type: string
-          responses:
-            '200':
-              description: Detalhe de contrato demo
+    - api:default/comercial-api-openapi
 
