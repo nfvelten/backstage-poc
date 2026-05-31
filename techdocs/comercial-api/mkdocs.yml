@@ -5,7 +5,7 @@ plugins:
   - techdocs-core
 
 nav:
-  - Início: Index.md
+  - Início: index.md
   - Endpoints: Endpoints da Collection/Index.md
   - Fluxos: Fluxos de Negocio/Index.md
   - Banco: Banco - air_comercial.md

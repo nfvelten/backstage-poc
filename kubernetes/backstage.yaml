@@ -21,6 +21,11 @@ data:
       providers:
         guest:
           dangerouslyAllowOutsideDevelopment: true
+    techdocs:
+      publisher:
+        type: local
+        local:
+          publishDirectory: /tmp/techdocs
 ---
 apiVersion: v1
 kind: Secret
