@@ -7,7 +7,7 @@ metadata:
     backstage.io/kubernetes-id: air-comercial
     backstage.io/kubernetes-namespace: air-demo
     backstage.io/kubernetes-label-selector: app=air-comercial,backstage.io/kubernetes-id=air-comercial
-    backstage.io/techdocs-ref: dir:../techdocs/comercial-api
+    backstage.io/techdocs-ref: dir:./techdocs-comercial-api
     gitlab.com/project-slug: air-poc/air-comercial
     dev.azure.com/project-repo: Air/air-comercial
   links:
