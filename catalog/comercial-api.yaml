@@ -51,5 +51,5 @@ spec:
   owner: group:default/comercial
   system: air-comercial
   definition:
-    $text: ./comercial-api-openapi.yaml
+    $text: https://raw.githubusercontent.com/nfvelten/backstage-poc/master/catalog/comercial-api-openapi.yaml
 

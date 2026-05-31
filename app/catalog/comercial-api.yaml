@@ -28,9 +28,28 @@ spec:
   lifecycle: production
   owner: group:default/comercial
   system: air-comercial
+  providesApis:
+    - comercial-api-openapi
   dependsOn:
     - resource:default/air-comercial-db
     - resource:default/grafana-self-hosted
     - resource:default/rancher-kubernetes
     - resource:default/gitlab-self-hosted
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: comercial-api-openapi
+  description: Endpoints da comercial-api — gerado a partir da collection Bruno documentada no vault.
+  tags:
+    - java
+    - spring-boot
+    - comercial
+spec:
+  type: openapi
+  lifecycle: production
+  owner: group:default/comercial
+  system: air-comercial
+  definition:
+    $text: https://raw.githubusercontent.com/nfvelten/backstage-poc/master/catalog/comercial-api-openapi.yaml
 

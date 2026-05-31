@@ -1,0 +1,400 @@
+openapi: 3.0.3
+info:
+  title: comercial-api
+  description: API comercial Air — clientes, vendas, contratos, crédito, integrações e operação comercial.
+  version: 1.0.0
+servers:
+  - url: https://api.air.internal/comercial
+    description: Produção (interno)
+
+tags:
+  - name: cliente
+    description: Dados e consultas de clientes
+  - name: contrato
+    description: Contratos e operações contratuais
+  - name: venda
+    description: Vendas e ativação de serviços
+  - name: oauth
+    description: Integração OAuth
+  - name: notificacoes
+    description: Notificações WhatsApp
+  - name: contracts-v1
+    description: Endpoints v1 (nova versão)
+
+paths:
+  /cliente:
+    get:
+      tags: [cliente]
+      summary: Buscar cliente por CPF/CNPJ
+      operationId: getClientePorCpf
+      parameters:
+        - name: cpfcnpj
+          in: query
+          required: true
+          schema:
+            type: string
+          example: "12345678901"
+      responses:
+        "200":
+          description: Cliente encontrado
+        "404":
+          description: Cliente não encontrado
+
+  /cliente/{id}:
+    get:
+      tags: [cliente]
+      summary: Buscar cliente por ID
+      operationId: getClientePorId
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Dados do cliente
+        "404":
+          description: Cliente não encontrado
+
+  /cliente/{id}/analise_credito:
+    get:
+      tags: [cliente]
+      summary: Análise de crédito do cliente
+      operationId: getClienteAnaliseCredito
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Resultado da análise de crédito
+
+  /cliente/{id}/blacklist:
+    get:
+      tags: [cliente]
+      summary: Verificar se cliente está em blacklist
+      operationId: getClienteBlacklist
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Status de blacklist do cliente
+
+  /cliente/{id}/consultar_avisos:
+    get:
+      tags: [cliente]
+      summary: Consultar avisos do cliente
+      operationId: getClienteConsultarAvisos
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Lista de avisos do cliente
+
+  /cliente/{id}/contato:
+    get:
+      tags: [cliente]
+      summary: Dados de contato do cliente
+      operationId: getClienteContato
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Contatos do cliente
+
+  /cliente/{id}/contrato:
+    get:
+      tags: [cliente]
+      summary: Contratos do cliente
+      operationId: getClienteContrato
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Lista de contratos do cliente
+
+  /cliente/{id}/endereco:
+    get:
+      tags: [cliente]
+      summary: Endereço do cliente
+      operationId: getClienteEndereco
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Dados de endereço do cliente
+
+  /contrato/{id}:
+    get:
+      tags: [contrato]
+      summary: Buscar contrato por ID
+      operationId: getContrato
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Dados do contrato
+        "404":
+          description: Contrato não encontrado
+
+  /contrato/{id}/aviso:
+    get:
+      tags: [contrato]
+      summary: Avisos do contrato
+      operationId: getContratoAviso
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Lista de avisos do contrato
+
+  /contrato/{id}/adicionar_aviso:
+    post:
+      tags: [contrato]
+      summary: Adicionar aviso ao contrato
+      operationId: postContratoAdicionarAviso
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mensagem:
+                  type: string
+      responses:
+        "201":
+          description: Aviso adicionado
+
+  /contrato/{id}/migracao:
+    get:
+      tags: [contrato]
+      summary: Migrações do contrato
+      operationId: getContratoMigracao
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Dados de migração do contrato
+
+  /contrato/{id}/venda:
+    get:
+      tags: [contrato]
+      summary: Vendas do contrato
+      operationId: getContratoVenda
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Lista de vendas do contrato
+
+  /contrato/criar-integracao:
+    post:
+      tags: [contrato]
+      summary: Criar integração de contrato
+      operationId: postCriarIntegracao
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "201":
+          description: Integração criada
+
+  /venda/{id_venda}/ativar_servicos:
+    put:
+      tags: [venda]
+      summary: Ativar serviços da venda
+      operationId: putAtivarServicos
+      parameters:
+        - name: id_venda
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Serviços ativados
+
+  /venda/nao_confirmadas:
+    put:
+      tags: [venda]
+      summary: Listar vendas não confirmadas por natureza
+      operationId: getVendasByNatureza
+      parameters:
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: order
+          in: query
+          schema:
+            type: string
+            default: id
+        - name: direction
+          in: query
+          schema:
+            type: string
+            enum: [ASC, DESC]
+            default: DESC
+      responses:
+        "200":
+          description: Lista paginada de vendas não confirmadas
+
+  /oauth/remover/{id}:
+    delete:
+      tags: [oauth]
+      summary: Remover integração OAuth
+      operationId: deleteOauthRemover
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Integração removida
+
+  /oauth/integrar:
+    post:
+      tags: [oauth]
+      summary: Criar integração OAuth
+      operationId: postOauthIntegrar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "201":
+          description: Integração criada
+
+  /wpp-notificacoes/listar/{customerId}:
+    get:
+      tags: [notificacoes]
+      summary: Listar notificações WhatsApp do cliente
+      operationId: getWppNotificacoesListar
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Lista de notificações WhatsApp
+
+  /v1/contracts/customer-basic-info:
+    get:
+      tags: [contracts-v1]
+      summary: Informações básicas do cliente por contrato
+      operationId: getContractsCustomerBasicInfo
+      parameters:
+        - name: contract_number
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Dados básicos do cliente
+
+  /v1/contracts/detail:
+    get:
+      tags: [contracts-v1]
+      summary: Detalhes do contrato (v1)
+      operationId: getContractsDetail
+      parameters:
+        - name: contract_number
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Detalhes completos do contrato
+
+  /v1/contracts/{id}/svas:
+    get:
+      tags: [contracts-v1]
+      summary: SVAs do contrato (v1)
+      operationId: getContratoSvasV1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Lista de SVAs do contrato
+
+  /v1/contracts/enable-by-trust-elegibility:
+    get:
+      tags: [contracts-v1]
+      summary: Verificar elegibilidade por confiança
+      operationId: getElegibilidadeConfianca
+      parameters:
+        - name: contract_number
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Resultado de elegibilidade por confiança
