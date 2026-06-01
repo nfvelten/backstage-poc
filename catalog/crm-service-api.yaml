@@ -1,0 +1,46 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: crm-service-api
+  description: Clean architecture CRM para clientes, contratos, vendas e verificação de identidade.
+  annotations:
+    gitlab.com/project-slug: air/crm-service-api
+    dev.azure.com/project-repo: Air/crm-service-api
+  links:
+    - url: https://gitlab.example.internal/air/crm-service-api
+      title: GitLab - crm-service-api
+      icon: gitlab
+    - url: https://grafana.example.internal/d/crm-service-api/crm-service-api
+      title: Grafana - dashboard
+      icon: dashboard
+  tags:
+    - java
+    - spring-boot
+    - crm
+    - clean-arch
+spec:
+  type: service
+  lifecycle: production
+  owner: group:default/comercial
+  system: crm
+  providesApis:
+    - crm-service-api-openapi
+  dependsOn:
+    - component:default/air-chamado
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: crm-service-api-openapi
+  description: API CRM — clientes, contas, contratos, vendas e KYC.
+  tags:
+    - java
+    - spring-boot
+    - crm
+spec:
+  type: openapi
+  lifecycle: production
+  owner: group:default/comercial
+  system: crm
+  definition:
+    $text: https://raw.githubusercontent.com/nfvelten/backstage-poc/master/catalog/crm-service-api-openapi.yaml

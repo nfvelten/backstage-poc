@@ -1,0 +1,117 @@
+openapi: 3.0.3
+info:
+  title: Financial Service API
+  description: Clean architecture financial service for invoices, payments and contracts
+  version: 1.0.0
+servers:
+  - url: https://api.air.internal/financial-service-api
+    description: Produção (interno)
+paths:
+  /v1/invoices/{code}:
+    get:
+      summary: Get invoice details by invoice code
+      operationId: getInvoice
+      parameters:
+        - name: code
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+  /v1/invoices/bank-billet-information:
+    get:
+      summary: Get bank billet (boleto) information for invoice payment
+      operationId: getBankBilletInformation
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+  /v1/payments:
+    post:
+      summary: Process a payment (credit card, boleto)
+      operationId: processPayment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+  /v2/payments:
+    post:
+      summary: Process a payment (V2 — adds PIX support)
+      operationId: processPaymentV2
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+  /v1/contracts/{id}:
+    get:
+      summary: Get contract financial details
+      operationId: getContract
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+  /v1/contracts/{id}/due-day-options:
+    get:
+      summary: Get available due day options for contract modification
+      operationId: getDueDayOptions
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+  /v1/sales:
+    get:
+      summary: List sales with financial status and invoice info
+      operationId: getSales
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+  /v2/sales/{id}:
+    get:
+      summary: Get detailed sale financial info (V2)
+      operationId: getSaleById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized

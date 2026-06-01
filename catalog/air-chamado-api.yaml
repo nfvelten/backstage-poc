@@ -1,0 +1,171 @@
+openapi: 3.0.3
+info:
+  title: Air Chamado API
+  description: Tickets, service orders, scheduling and field service management
+  version: 1.0.0
+servers:
+  - url: https://api.air.internal/air-chamado
+    description: Produção (interno)
+paths:
+  /wfm/consultar-agenda:
+    get:
+      summary: Query available WFM time slots for service scheduling via OfficeTrack
+      operationId: consultarAgenda
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+  /wfm/confirmar-agenda:
+    post:
+      summary: Confirm a scheduled WFM appointment with booking key and time slot
+      operationId: confirmarAgenda
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+  /ordem_servico/{id}:
+    get:
+      summary: Retrieve full service order details by ID
+      operationId: getOrdemServico
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+  /ordem_servico:
+    post:
+      summary: Create a new service order linked to a chamado
+      operationId: criarOrdemServico
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+  /v2/ordem_servico/reagendar-manual/{id}:
+    put:
+      summary: Manually reschedule a service order by support team
+      operationId: reagendarManual
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+  /chamado:
+    post:
+      summary: Create a new support ticket
+      operationId: criarChamado
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+  /chamado/by_cliente/{clienteId}:
+    get:
+      summary: List all tickets for a given customer
+      operationId: getChamadosByCliente
+      parameters:
+        - name: clienteId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+  /agenda_workzone/{contractCode}:
+    get:
+      summary: Get scheduling availability by contract code and work zone
+      operationId: getAgendaWorkzone
+      parameters:
+        - name: contractCode
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+  /fila:
+    get:
+      summary: List available ticket queues
+      operationId: getFilas
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+  /classificacao:
+    get:
+      summary: List ticket classifications
+      operationId: getClassificacoes
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+  /ofs/outbound/atualiza-atividade:
+    post:
+      summary: OFS/OfficeTrack callback to update field service activity status
+      operationId: atualizaAtividade
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+  /connectmaster/dados-reserva:
+    get:
+      summary: Query ConnectMaster for network reservation data
+      operationId: getDadosReserva
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized

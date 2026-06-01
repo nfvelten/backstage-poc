@@ -1,0 +1,44 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: air-chamado
+  description: Tickets, service orders, scheduling and field service management.
+  annotations:
+    gitlab.com/project-slug: air/air-chamado
+    dev.azure.com/project-repo: Air/air-chamado
+  links:
+    - url: https://gitlab.example.internal/air/air-chamado
+      title: GitLab - air-chamado
+      icon: gitlab
+    - url: https://grafana.example.internal/d/air-chamado/air-chamado
+      title: Grafana - dashboard
+      icon: dashboard
+  tags:
+    - java
+    - spring-boot
+    - field-service
+    - tickets
+spec:
+  type: service
+  lifecycle: production
+  owner: group:default/comercial
+  system: air-chamado
+  providesApis:
+    - air-chamado-api
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: air-chamado-api
+  description: API de chamados, ordens de serviço e agendamento de campo.
+  tags:
+    - java
+    - spring-boot
+    - field-service
+spec:
+  type: openapi
+  lifecycle: production
+  owner: group:default/comercial
+  system: air-chamado
+  definition:
+    $text: https://raw.githubusercontent.com/nfvelten/backstage-poc/master/catalog/air-chamado-api.yaml

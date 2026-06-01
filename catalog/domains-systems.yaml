@@ -16,6 +16,33 @@ spec:
   domain: comercial
 ---
 apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: air-chamado
+  description: Sistema de chamados, ordens de serviço e agendamento de campo.
+spec:
+  owner: group:default/comercial
+  domain: comercial
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: crm
+  description: Sistema CRM — clientes, contratos e vendas.
+spec:
+  owner: group:default/comercial
+  domain: comercial
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: financial
+  description: Sistema financeiro — faturas e pagamentos.
+spec:
+  owner: group:default/comercial
+  domain: comercial
+---
+apiVersion: backstage.io/v1alpha1
 kind: Group
 metadata:
   name: comercial

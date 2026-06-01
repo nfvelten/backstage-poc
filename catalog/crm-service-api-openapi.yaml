@@ -1,0 +1,186 @@
+openapi: 3.0.3
+info:
+  title: CRM Service API
+  description: Clean architecture CRM for customers, contracts, sales and identity verification
+  version: 1.0.0
+servers:
+  - url: https://api.air.internal/crm-service-api
+    description: Produção (interno)
+paths:
+  /v1/customers/{id}:
+    get:
+      summary: Get customer by ID with full profile
+      operationId: getCustomerById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+  /v1/customers:
+    post:
+      summary: Create a new customer
+      operationId: createCustomer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+  /v2/accounts/{id}:
+    get:
+      summary: Get account details (V2)
+      operationId: getAccount
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+  /v1/contracts/{id}:
+    get:
+      summary: Get contract by ID
+      operationId: getContractById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+  /v1/contracts/{id}/due-day:
+    get:
+      summary: Get available due day options for contract change
+      operationId: getDueDayOptions
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+  /v1/sales:
+    post:
+      summary: Create a new sale
+      operationId: createSale
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+  /v2/sales:
+    post:
+      summary: Create a new sale (V2 with extended validation)
+      operationId: createSaleV2
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+  /v1/sales/validateContractEligibilityForPlanChange:
+    post:
+      summary: Validate if contract is eligible for plan change
+      operationId: validateContractEligibility
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+  /v1/addresses:
+    get:
+      summary: List addresses for a customer
+      operationId: getAddresses
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+  /v1/webhooks:
+    post:
+      summary: Register a webhook for CRM events
+      operationId: registerWebhook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+  /v1/cdr:
+    get:
+      summary: Get call detail records
+      operationId: getCdr
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+  /v1/unity:
+    get:
+      summary: Get unity/region information
+      operationId: getUnity
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+  /v1/unico:
+    post:
+      summary: Trigger Unico KYC identity verification process
+      operationId: startVerification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized

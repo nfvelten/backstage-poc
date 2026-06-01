@@ -1,0 +1,46 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: financial-service-api
+  description: Clean architecture financial service para faturas, pagamentos e contratos.
+  annotations:
+    gitlab.com/project-slug: air/financial-service-api
+    dev.azure.com/project-repo: Air/financial-service-api
+  links:
+    - url: https://gitlab.example.internal/air/financial-service-api
+      title: GitLab - financial-service-api
+      icon: gitlab
+    - url: https://grafana.example.internal/d/financial-service-api/financial-service-api
+      title: Grafana - dashboard
+      icon: dashboard
+  tags:
+    - java
+    - spring-boot
+    - financial
+    - clean-arch
+spec:
+  type: service
+  lifecycle: production
+  owner: group:default/comercial
+  system: financial
+  providesApis:
+    - financial-service-api-openapi
+  dependsOn:
+    - component:default/air-chamado
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: financial-service-api-openapi
+  description: API financeira — faturas, boletos, pagamentos e contratos.
+  tags:
+    - java
+    - spring-boot
+    - financial
+spec:
+  type: openapi
+  lifecycle: production
+  owner: group:default/comercial
+  system: financial
+  definition:
+    $text: https://raw.githubusercontent.com/nfvelten/backstage-poc/master/catalog/financial-service-api-openapi.yaml

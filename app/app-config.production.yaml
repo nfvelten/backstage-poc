@@ -52,7 +52,12 @@ catalog:
       target: ./catalog/resources.yaml
     - type: file
       target: ./catalog/comercial-api.yaml
-
+    - type: file
+      target: ./catalog/air-chamado.yaml
+    - type: file
+      target: ./catalog/crm-service-api.yaml
+    - type: file
+      target: ./catalog/financial-service-api.yaml
 
 techdocs:
   builder: local
