@@ -52,8 +52,7 @@ catalog:
       target: ./catalog/resources.yaml
     - type: file
       target: ./catalog/comercial-api.yaml
-    - type: file
-      target: ./catalog/air-comercial-demo.yaml
+
 
 techdocs:
   builder: local

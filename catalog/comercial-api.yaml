@@ -4,7 +4,12 @@ metadata:
   name: comercial-api
   description: API comercial para clientes, vendas, contratos, crédito, integrações e operação comercial.
   annotations:
-    backstage.io/techdocs-ref: dir:../techdocs/comercial-api
+    backstage.io/techdocs-ref: dir:./techdocs-comercial-api
+    backstage.io/kubernetes-id: air-comercial
+    backstage.io/kubernetes-namespace: air-demo
+    backstage.io/kubernetes-label-selector: app=air-comercial,backstage.io/kubernetes-id=air-comercial
+    gitlab.com/project-slug: air-poc/comercial-api
+    dev.azure.com/project-repo: Air/comercial-api
   links:
     - url: https://gitlab.example.internal/air/comercial-api
       title: GitLab - comercial-api
