@@ -46,6 +46,8 @@ kind: API
 metadata:
   name: comercial-api-openapi
   description: Endpoints da comercial-api — gerado a partir da collection Bruno documentada no vault.
+  annotations:
+    backstage.io/techdocs-ref: dir:./techdocs-comercial-api
   tags:
     - java
     - spring-boot
